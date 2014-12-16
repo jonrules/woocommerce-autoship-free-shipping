@@ -31,24 +31,4 @@ if ( is_plugin_active( 'woocommerce-autoship/woocommerce-autoship.php' ) ) {
 		return array( 'free_shipping' );
 	}
 	add_filter( 'wc_autoship_valid_shipping_method_ids', 'wc_autoship_free_shipping_valid_shipping_ids' );
-	
-	function wc_autoship_free_shipping_rates( $rates, $package ) {
-		if ( ! isset( $rates['free_shipping'] ) ) {
-			// Return default rates
-			return $rates;
-		}
-		
-		foreach ( $package['contents'] as $content ) {
-			if ( isset( $content['wc_autoship_option_id'] ) ) {
-				// Return only free shipping rate
-				return array( $rates['free_shipping'] );
-			}
-		}
-		
-		// Remove free shipping rates
-		unset( $rates['free_shipping'] );
-		// Return non-free shipping rates
-		return $rates;
-	}
-	add_filter( 'woocommerce_package_rates', 'wc_autoship_free_shipping_rates', 10, 2 );
 }
